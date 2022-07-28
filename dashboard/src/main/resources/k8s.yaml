@@ -38,6 +38,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: dashboard
+  namespace: k8s
   labels:
     app: dashboard
 spec:
