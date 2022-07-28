@@ -50,7 +50,7 @@ spec:
     spec:
       containers:
         - name: dashboard
-          image: zhqn.com:5000/dashboard:1.0.0
+          image: registry.cn-hangzhou.aliyuncs.com/zhqn/dashboard:1.0.0
           imagePullPolicy: Always
       restartPolicy: Always
   selector:
