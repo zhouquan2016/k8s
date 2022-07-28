@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: k8s
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-user
+  namespace: k8s
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: admin-user
+    namespace: k8s
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: k8s
+  name: dashboard-configmap
+data:
+  application.yml: |
+    k8s:
+      url: https://192.168.48.136:6443
+      token: eyJhbGciOiJSUzI1NiIsImtpZCI6IjU2RDJXZS1lWmVtR2RKWlpwMGpKY2MzSzVvNVVPajkwNDhDM3Fkc0psWW8ifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrOHMiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlY3JldC5uYW1lIjoiYWRtaW4tdXNlci10b2tlbi1ubDcydyIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJhZG1pbi11c2VyIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQudWlkIjoiOTFlZDU1MTYtMjdmMi00OWRlLWE5MjUtOTUzMTViZTNlMTk0Iiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Oms4czphZG1pbi11c2VyIn0.puPkl1tDMRXmesQTDzaxbQ5n-j_OrRI5-33NHZRzeOAG0-QKxRYgxOXjVRuwTFMETZvalpn9gwGZOc2kRro_EZUEfuTSfnLxZ-iLAdDgH-PErLb9G6YmOzglntv6a0POZ_3Xw2mW6tPdEpuH7MBb9nm7YFh-JJC8xRVMXNI6IWlVa0HYTqWmWgteXjZpDUku0LyEUx0h7i4uyCfhKdfnu0LHpoNN5FiceLcVm4YU6gB2hagfUKKmGN7_GwUqzyJp8AdfPhZ9SNYjgMnO1hkz4QdjPbD5R0uF2LCeRygHh_WpKyTdhVG_HQALHUYOjIMPeismM6XMFTM1wTaJHQucLg
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashboard
+  labels:
+    app: dashboard
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: dashboard
+      labels:
+        app: dashboard
+    spec:
+      containers:
+        - name: dashboard
+          image: zhqn.com:5000/dashboard:1.0.0
+          imagePullPolicy: Always
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: dashboard
