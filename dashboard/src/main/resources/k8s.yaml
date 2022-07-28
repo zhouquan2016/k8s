@@ -46,6 +46,7 @@ spec:
   template:
     metadata:
       name: dashboard
+      namespace: k8s
       labels:
         app: dashboard
     spec:
