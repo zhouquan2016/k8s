@@ -1,4 +1,5 @@
-FROM openjdk:8u342-nanoserver
+#FROM openjdk:8u342-nanoserver
+FROM java:8
 MAINTAINER zhqn
 RUN mkdir /app /app/config -p
 COPY /target/dashboard-1.0.0.jar /app
