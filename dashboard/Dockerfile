@@ -1,5 +1,5 @@
 #FROM openjdk:8u342-nanoserver
-FROM java:8
+FROM hub.bitautotech.com/library/jdk:8u202-oraclejre-alpine3.13
 MAINTAINER zhqn
 RUN mkdir /app /app/config -p
 RUN touch /app/start.log
