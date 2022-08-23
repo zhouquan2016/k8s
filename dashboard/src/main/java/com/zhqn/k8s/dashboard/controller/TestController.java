@@ -21,8 +21,6 @@ public class TestController {
 
     @GetMapping("/")
     public String test() throws ApiException {
-        ApiClient apiClient = Config.fromUrl("http://192.168.48.136:8009");
-        Configuration.setDefaultApiClient(apiClient);
         CoreV1Api coreV1Api = new CoreV1Api();
         V1PodList list = coreV1Api.listPodForAllNamespaces(null, null, null, null,
                 null, null, null, null, null, null);
@@ -54,4 +52,5 @@ public class TestController {
         }
         return "ok";
     }
+
 }
