@@ -67,11 +67,17 @@ public class TestController {
     }
 
     @GetMapping("/test")
-    public String test(Integer loopCount) {
+    public String test(Integer loopCount, String namespace) {
+        if (loopCount == null) {
+            loopCount = 100;
+        }
+        if (namespace == null) {
+            namespace = "default";
+        }
         CoreV1Api coreV1Api = new CoreV1Api();
         try {
             for (int i = 0; i < loopCount; i++) {
-                V1PodList v1PodList = coreV1Api.listNamespacedPod("default", null, null, null, null, null, null, null, null, null, null);
+                V1PodList v1PodList = coreV1Api.listNamespacedPod(namespace, null, null, null, null, null, null, null, null, null, null);
                 if (Objects.isNull(v1PodList)) {
                     return "fail";
                 }
